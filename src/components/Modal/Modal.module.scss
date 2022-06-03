@@ -1,0 +1,60 @@
+.modal__container {
+  display: block;
+  background: rgba(0, 0, 0, 0.401);
+  .modal__dialog {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20%;
+    height: 100%;
+    position: relative;
+    .modal__content {
+      .modal__form {
+        position: relative;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, 41%);
+        display: flex;
+        justify-content: center;
+        color: #fff;
+        margin-bottom: 40px;
+
+        #modal__input {
+          padding: 14px 32px 14px 16px;
+          border-radius: 4px 0 0 4px;
+          border: 2px solid #5d0cff;
+          outline: none;
+          width: 78%;
+          background: transparent;
+          color: rgb(22, 19, 19);
+
+          &::placeholder {
+            color: rgb(111, 65, 203);
+          }
+        }
+
+        .modal__button {
+          padding: 16px;
+          border: none;
+          border-radius: 0 4px 4px 0;
+          cursor: pointer;
+          outline: none;
+          background: linear-gradient(
+            90deg,
+            rgba(93, 12, 255, 1) 0%,
+            rgba(155, 0, 250, 1) 100%
+          );
+          color: #fff;
+          text-transform: capitalize;
+        }
+      }
+
+      .modal__error {
+        color: red;
+        position: absolute;
+        top: 100%;
+        left: 2%;
+      }
+    }
+  }
+}
