@@ -1,4 +1,10 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTrashAlt,
+  faEdit,
+  faCheckCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import classes from "./TodoItem.module.scss";
 
 function TodoItem(props) {
@@ -8,37 +14,48 @@ function TodoItem(props) {
     <div
       className={
         todo.isCompleted
-          ? `${classes.todo__item} ${classes.completed}`
-          : `${classes.todo__item}`
+          ? `${classes.todo} ${classes.completed}`
+          : `${classes.todo}`
       }
     >
       <div
-        className={`${classes["todo__item-content"]} d-flex justify-content-between`}
+        className={`${classes["todo__content"]} d-flex justify-content-between`}
       >
-        <div className={`${classes["todo__item-left"]} d-flex`}>
-          <i
+        <div className={`${classes["todo__left"]} d-flex`}>
+          {/* <i
             className={`${
-              classes[`todo__item-check`]
+              classes[`todo__check`]
             } fa fa-check d-flex justify-content-around`}
             onClick={() => {
               completeTodo(todo.id);
             }}
-          ></i>
-          <p className={`${classes["todo__item-text"]}`}>{todo.name}</p>
+          ></i> */}
+          <FontAwesomeIcon
+            icon={faCheckCircle}
+            className={`${
+              classes[`todo__check`]
+            } fa fa-check d-flex justify-content-around`}
+            onClick={() => {
+              completeTodo(todo.id);
+            }}
+          />
+          <p className={`${classes["todo__text"]}`}>{todo.name}</p>
         </div>
-        <div className={`${classes["todo__item-right"]}`}>
-          <i
-            className="fa fa-edit"
+        <div className={`${classes["todo__right"]}`}>
+          <FontAwesomeIcon
+            icon={faEdit}
+            className={`${classes["todo__edit"]}`}
             onClick={() => {
               toggleEditTodo(todo);
             }}
-          ></i>
-          <i
-            className="fa fa-trash-alt"
+          />
+          <FontAwesomeIcon
+            icon={faTrashAlt}
+            className={`${classes["todo__remove"]}`}
             onClick={() => {
               removeTodo(todo.id);
             }}
-          ></i>
+          />
         </div>
       </div>
     </div>

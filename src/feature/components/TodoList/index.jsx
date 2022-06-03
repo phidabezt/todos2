@@ -6,7 +6,7 @@ function TodoList(props) {
   const { todos, removeTodo, completeTodo, toggleEditTodo } = props;
 
   return (
-    <div className={styles["todo__container"]}>
+    <div className={styles["todos"]}>
       {todos.map((todo) => (
         <TodoItem
           todo={todo}

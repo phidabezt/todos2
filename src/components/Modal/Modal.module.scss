@@ -1,11 +1,11 @@
-.modal__container {
+.modal {
   display: block;
   background: rgba(0, 0, 0, 0.401);
   .modal__dialog {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 20%;
+    width: 30%;
     height: 100%;
     position: relative;
     .modal__content {

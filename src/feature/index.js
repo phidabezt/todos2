@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import "./index.scss";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import TodoList from "./components/TodoList";
 import Modal from "../components/Modal";
+import TodoSearch from "./components/TodoSearch";
 
 function App() {
   const [todos, setTodos] = useState([]);
-  const [todoEdit, setTodoEdit] = useState({});
+  const [todoSelected, setTodoSelected] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const addTodo = (name) => {
     const todoObj = {
@@ -22,14 +24,14 @@ function App() {
   };
 
   const toggleEditTodo = (todo) => {
-    setIsModalOpen((prev) => (prev = !prev));
-    setTodoEdit(todo);
+    setIsModalOpen(true);
+    setTodoSelected(todo);
   };
 
   const editTodo = (newValue) => {
     setTodos((prevTodos) => {
       const newTodos = [...prevTodos];
-      const index = newTodos.findIndex((item) => item.id === todoEdit.id);
+      const index = newTodos.findIndex((item) => item.id === todoSelected.id);
 
       if (index < 0) return prevTodos;
       if (newTodos[index].name !== newValue) {
@@ -37,8 +39,8 @@ function App() {
       }
       return newTodos;
     });
-    setIsModalOpen((prev) => (prev = !prev));
-    setTodoEdit({});
+    setIsModalOpen(false);
+    setTodoSelected();
   };
 
   const removeTodo = (id) => {
@@ -58,19 +60,26 @@ function App() {
     setTodos(updatedTodos);
   };
 
+  const handleSearchTerm = () => {
+    return searchTerm
+      ? todos.filter((todo) => todo.name.includes(searchTerm))
+      : todos;
+  };
+
   return (
     <div className="todo-app">
       <Header />
       {isModalOpen && (
         <Modal
           addTodo={addTodo}
-          todoEdit={todoEdit}
+          todoSelected={todoSelected}
           editTodo={editTodo}
           setIsModalOpen={setIsModalOpen}
         />
       )}
+      <TodoSearch setSearchTerm={setSearchTerm} />
       <TodoList
-        todos={todos}
+        todos={handleSearchTerm()}
         removeTodo={removeTodo}
         completeTodo={completeTodo}
         toggleEditTodo={toggleEditTodo}
@@ -78,17 +87,15 @@ function App() {
       <button
         className="btn btn-plus "
         onClick={() => {
-          setIsModalOpen((prev) => (prev = !prev));
-          setTodoEdit({});
+          setIsModalOpen(true);
+          setTodoSelected({});
         }}
       >
         <span>+</span>
       </button>
-
-      <Footer todosLength={todos.length} />
+      <Footer number={todos.length} />
     </div>
   );
 }
 
 export default App;
-// lalala
