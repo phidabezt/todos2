@@ -5,6 +5,7 @@
   width: 50px;
   height: 50px;
   font-size: 35px;
+  margin-top: 20px;
   margin-left: auto;
   margin-right: 20px;
   border: none;
@@ -36,111 +37,9 @@
   flex-direction: column;
   justify-content: flex-start;
   width: 520px;
-  min-height: 600px;
+  min-height: 500px;
   background: #161a2b;
   text-align: center;
   border-radius: 10px;
   padding-bottom: 32px;
 }
-
-// .todo-form {
-//   position: relative;
-//   left: 50%;
-//   top: 50%;
-//   transform: translate(-50%, 41%);
-//   display: flex;
-//   justify-content: center;
-//   color: #fff;
-//   margin-bottom: 40px;
-// }
-
-// #todo-edit {
-//   /* padding: 14px 32px 14px 16px; */
-//   /* border-radius: 4px 0 0 4px; */
-//   border: 2px solid #5d0cff;
-//   outline: none;
-//   /* width: 78%; */
-//   background: transparent;
-//   color: #fff;
-
-//   padding: 16px 36px;
-//   border-radius: 5px;
-//   width: 90%;
-//   margin-bottom: 15px;
-
-//   &::placeholder {
-//     color: #e2e2e2;
-//   }
-// }
-
-// .todo-edit--button {
-//   padding: 16px 40px;
-//   border: none;
-//   border-radius: 4px;
-//   cursor: pointer;
-//   outline: none;
-//   background: linear-gradient(
-//     90deg,
-//     rgba(93, 12, 255, 1) 0%,
-//     rgba(155, 0, 250, 1) 100%
-//   );
-//   color: #fff;
-//   text-transform: capitalize;
-// }
-
-// .modal-dialog {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   width: 20%;
-//   height: 100%;
-//   position: relative;
-//   .modal-content {
-//     .error {
-//       color: red;
-//       position: absolute;
-//       top: 100%;
-//       left: 2%;
-//     }
-//   }
-
-//   #todo-input {
-//     color: #000;
-//     &::placeholder {
-//       color: rgba(79, 75, 75, 0.519);
-//     }
-//   }
-
-//   .todo-button {
-//     color: #fff;
-//   }
-// }
-
-// #todo-input {
-//   padding: 14px 32px 14px 16px;
-//   border-radius: 4px 0 0 4px;
-//   border: 2px solid #5d0cff;
-//   outline: none;
-//   width: 78%;
-//   background: transparent;
-//   color: #fff;
-
-//   &::placeholder {
-//     color: rgba(197, 183, 183, 0.519);
-//   }
-// }
-
-// .todo-button {
-//   padding: 16px;
-//   border: none;
-//   border-radius: 0 4px 4px 0;
-//   cursor: pointer;
-//   outline: none;
-//   background: linear-gradient(
-//     90deg,
-//     rgba(93, 12, 255, 1) 0%,
-//     rgba(155, 0, 250, 1) 100%
-//   );
-//   color: #fff;
-//   text-transform: capitalize;
-// }

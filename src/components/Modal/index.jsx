@@ -12,14 +12,16 @@ const validationSchema = Yup.object({
 });
 
 function Modal(props) {
-  const { addTodo, todoEdit, editTodo, setIsModalOpen } = props;
+  const { addTodo, todoSelected, editTodo, setIsModalOpen } = props;
 
   const modalContent = {
-    initialValues: todoEdit.id ? todoEdit.name : "",
-    title: todoEdit.id ? "Update your todo" : "What's your plan?",
-    modalPlaceholder: todoEdit.id ? "Changing something ..." : "Add a todo ...",
-    buttonName: todoEdit.id ? "Update" : "Add",
-    interactiveFunc: todoEdit.id ? editTodo : addTodo,
+    initialValues: todoSelected.id ? todoSelected.name : "",
+    title: todoSelected.id ? "Update your todo" : "What's your plan?",
+    modalPlaceholder: todoSelected.id
+      ? "Changing something ..."
+      : "Add a todo ...",
+    buttonName: todoSelected.id ? "Update" : "Add",
+    interactiveFunc: todoSelected.id ? editTodo : addTodo,
   };
 
   return (
@@ -35,7 +37,7 @@ function Modal(props) {
     >
       {(formikProps) => (
         <div
-          className={`${classes["modal__container"]} modal show`}
+          className={`${classes["modal"]} modal show`}
           id="modelId"
           tabIndex={-1}
           role="dialog"
@@ -77,7 +79,7 @@ function Modal(props) {
                   className="btn btn-secondary"
                   data-dismiss="modal"
                   onClick={() => {
-                    setIsModalOpen((prev) => (prev = !prev));
+                    setIsModalOpen(false);
                   }}
                 >
                   Close
