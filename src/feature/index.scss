@@ -37,9 +37,20 @@
   flex-direction: column;
   justify-content: flex-start;
   width: 520px;
-  min-height: 500px;
+  min-height: 950px;
+  max-height: 950px;
   background: #161a2b;
   text-align: center;
   border-radius: 10px;
   padding-bottom: 32px;
+  position: relative;
+}
+
+.search-error {
+  position: absolute;
+  width: 300px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
 }

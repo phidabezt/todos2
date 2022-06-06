@@ -2,17 +2,8 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import * as Yup from "yup";
 import _ from "lodash";
 import classes from "./TodoSearch.module.scss";
-
-const validationSchema = Yup.object({
-  name: Yup.string()
-    .required("Type something ...")
-    .matches(/^\s*\S[\s\S]*$/, "This field cannot contain only blankspaces")
-    .min(5, "At least 5 character")
-    .max(50, "Maximum length is 50"),
-});
 
 function TodoSearch(props) {
   const { setSearchTerm } = props;
@@ -21,11 +12,7 @@ function TodoSearch(props) {
     450
   );
   return (
-    <Formik
-      initialValues={{ name: "" }}
-      validationSchema={validationSchema}
-      enableReinitialize
-    >
+    <Formik initialValues={{ name: "" }} enableReinitialize>
       {(formikProps) => (
         <Form className={classes.search}>
           <Field

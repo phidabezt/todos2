@@ -13,7 +13,7 @@
   width: 90%;
   margin-bottom: 15px;
 
-  &:nth-child(4n + 1) {
+  &:nth-child(4n + 2) {
     background: linear-gradient(
       90deg,
       rgba(93, 12, 255, 1) 0%,
@@ -21,7 +21,7 @@
     );
   }
 
-  &:nth-child(4n + 2) {
+  &:nth-child(4n + 1) {
     background: linear-gradient(
       90deg,
       rgba(255, 12, 241, 1) 0%,

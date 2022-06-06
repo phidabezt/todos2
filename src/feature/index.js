@@ -1,16 +1,18 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import "./index.scss";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import TodoList from "./components/TodoList";
 import Modal from "../components/Modal";
 import TodoSearch from "./components/TodoSearch";
+import TodoFilter from "./components/TodoFilter";
 
 function App() {
   const [todos, setTodos] = useState([]);
   const [todoSelected, setTodoSelected] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [filterStatus, setFilterStatus] = useState("");
 
   const addTodo = (name) => {
     const todoObj = {
@@ -66,6 +68,32 @@ function App() {
       : todos;
   };
 
+  const handleFilterStatus = (status) => {
+    setFilterStatus(status);
+  };
+
+  const handleFilter = (todos) => {
+    switch (filterStatus) {
+      case "ALL":
+        console.log("ALL");
+        return todos;
+      case "ACTIVE":
+        console.log("ACTIVE");
+        return todos.filter((todo) => !todo.isCompleted);
+      case "COMPLETED":
+        console.log("COMPLETED");
+        return todos.filter((todo) => todo.isCompleted);
+      default:
+        return todos;
+    }
+  };
+
+  const handleRenderTodos = () => {
+    const tempTodos = handleSearchTerm();
+    console.log(handleFilter(tempTodos));
+    return handleFilter(tempTodos);
+  };
+
   return (
     <div className="todo-app">
       <Header />
@@ -77,13 +105,19 @@ function App() {
           setIsModalOpen={setIsModalOpen}
         />
       )}
+      <TodoFilter handleFilterStatus={handleFilterStatus} />
       <TodoSearch setSearchTerm={setSearchTerm} />
+      {searchTerm && handleSearchTerm().length === 0 && (
+        <h2 className="search-error">No result was found :(</h2>
+      )}
+
       <TodoList
-        todos={handleSearchTerm()}
+        todos={handleRenderTodos()}
         removeTodo={removeTodo}
         completeTodo={completeTodo}
         toggleEditTodo={toggleEditTodo}
       />
+
       <button
         className="btn btn-plus "
         onClick={() => {
