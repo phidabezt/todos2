@@ -90,7 +90,6 @@ function App() {
 
   const handleRenderTodos = () => {
     const tempTodos = handleSearchTerm();
-    console.log(handleFilter(tempTodos));
     return handleFilter(tempTodos);
   };
 
