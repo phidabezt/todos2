@@ -1,7 +1,8 @@
 import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import classes from "./Modal.module.scss";
+import InputField from "../InputField";
 
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -55,22 +56,12 @@ function Modal(props) {
               <div className="modal-body">
                 <Form className={`${classes["modal__form"]}`}>
                   <Field
-                    type="text"
                     name="name"
-                    id={`${classes["modal__input"]}`}
+                    component={InputField}
+                    id="modal__input"
                     placeholder={modalContent.modalPlaceholder}
+                    button-name={modalContent.buttonName}
                   />
-                  <ErrorMessage
-                    name="name"
-                    component="div"
-                    className={`${classes["modal__error"]}`}
-                  />
-                  <button
-                    className={`${classes["modal__button"]}`}
-                    type="submit"
-                  >
-                    {modalContent.buttonName}
-                  </button>
                 </Form>
               </div>
               <div className="modal-footer">

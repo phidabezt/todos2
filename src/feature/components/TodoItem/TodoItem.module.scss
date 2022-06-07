@@ -1,6 +1,6 @@
 .todo {
   align-items: center;
-  margin: 4px auto;
+  // margin: 4px auto;
   color: #fff;
   background: linear-gradient(
     90deg,
@@ -10,7 +10,7 @@
 
   padding: 16px 36px;
   border-radius: 5px;
-  width: 90%;
+  width: 100%;
   margin-bottom: 15px;
 
   &:nth-child(4n + 2) {
@@ -55,6 +55,8 @@
 
   .todo__content {
     align-items: center;
+    line-height: 35px;
+    text-align: left;
 
     .todo__left {
       align-items: center;
@@ -62,7 +64,7 @@
       justify-content: space-between;
 
       .todo__check {
-        // font-size: 15px;
+        margin-right: 10px;
         color: transparent;
         height: 35px;
         width: 35px;
@@ -74,6 +76,7 @@
 
       .todo__text {
         margin: 0;
+        margin-right: auto;
         width: 200px;
         word-break: break-all;
       }

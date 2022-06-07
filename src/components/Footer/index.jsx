@@ -15,7 +15,7 @@ function Footer(props) {
 
   return (
     <>
-      <p className={classes.footer}>number of todo: {number}</p>
+      <p className={classes.footer}>Number of todo: {number}</p>
     </>
   );
 }

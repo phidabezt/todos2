@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./index.scss";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -6,23 +6,36 @@ import TodoList from "./components/TodoList";
 import Modal from "../components/Modal";
 import TodoSearch from "./components/TodoSearch";
 import TodoFilter from "./components/TodoFilter";
+import _ from "lodash";
+import callApi from "../utils/callApi";
 
 function App() {
   const [todos, setTodos] = useState([]);
   const [todoSelected, setTodoSelected] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterStatus, setFilterStatus] = useState("");
+  const [filterStatus, setFilterStatus] = useState("ALL");
 
-  const addTodo = (name) => {
+  useEffect(() => {
+    callApi("todos", "GET", null).then((res) => {
+      setTodos(res.data);
+    });
+  }, []);
+
+  const addTodo = async (name) => {
     const todoObj = {
       id: new Date().getTime(),
       name: name,
-      isCompleted: false,
+      completed: false,
     };
 
-    const newTodos = [...todos, todoObj];
-    setTodos(newTodos);
+    await callApi("todos", "POST", todoObj).then((res) => {
+      console.log(res);
+    });
+
+    await callApi("todos", "GET", null).then((res) => {
+      setTodos(res.data);
+    });
   };
 
   const toggleEditTodo = (todo) => {
@@ -45,8 +58,16 @@ function App() {
     setTodoSelected();
   };
 
-  const removeTodo = (id) => {
+  const removeTodo = async (id) => {
     const removedTodos = todos.filter((todo) => todo.id !== id);
+
+    await callApi(`todos/${id}`, "DELETE", null).then((res) => {
+      console.log(res);
+    });
+
+    await callApi("todos", "GET", null).then((res) => {
+      setTodos(res.data);
+    });
 
     setTodos(removedTodos);
   };
@@ -68,6 +89,11 @@ function App() {
       : todos;
   };
 
+  const debouncedSetSearchTerm = _.debounce(
+    (nextValue) => setSearchTerm(nextValue),
+    300
+  );
+
   const handleFilterStatus = (status) => {
     setFilterStatus(status);
   };
@@ -75,13 +101,10 @@ function App() {
   const handleFilter = (todos) => {
     switch (filterStatus) {
       case "ALL":
-        console.log("ALL");
         return todos;
       case "ACTIVE":
-        console.log("ACTIVE");
         return todos.filter((todo) => !todo.isCompleted);
       case "COMPLETED":
-        console.log("COMPLETED");
         return todos.filter((todo) => todo.isCompleted);
       default:
         return todos;
@@ -104,11 +127,17 @@ function App() {
           setIsModalOpen={setIsModalOpen}
         />
       )}
-      <TodoFilter handleFilterStatus={handleFilterStatus} />
-      <TodoSearch setSearchTerm={setSearchTerm} />
+      <TodoSearch
+        setSearchTerm={debouncedSetSearchTerm}
+        searchTerm={searchTerm}
+      />
       {searchTerm && handleSearchTerm().length === 0 && (
         <h2 className="search-error">No result was found :(</h2>
       )}
+      <TodoFilter
+        handleFilterStatus={handleFilterStatus}
+        filterStatus={filterStatus}
+      />
 
       <TodoList
         todos={handleRenderTodos()}

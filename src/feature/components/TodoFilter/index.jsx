@@ -2,13 +2,15 @@ import React from "react";
 import classes from "./TodoFilter.module.scss";
 
 function TodoFilter(props) {
-  const { handleFilterStatus } = props;
+  const { handleFilterStatus, filterStatus } = props;
 
   return (
-    <nav className={`${classes.filter} filter d-flex justify-content-around`}>
+    <nav className={`${classes.filter} d-flex justify-content-between`}>
       <button
         name="ALL"
-        className={`${classes["filter__btn"]}`}
+        className={`${classes["filter__btn"]} ${
+          filterStatus === "ALL" ? classes["active"] : ""
+        }`}
         onClick={(e) => {
           handleFilterStatus(e.target.name);
         }}
@@ -17,7 +19,9 @@ function TodoFilter(props) {
       </button>
       <button
         name="ACTIVE"
-        className={`${classes["filter__btn"]}`}
+        className={`${classes["filter__btn"]} ${
+          filterStatus === "ACTIVE" ? classes["active"] : ""
+        }`}
         onClick={(e) => {
           handleFilterStatus(e.target.name);
         }}
@@ -26,7 +30,9 @@ function TodoFilter(props) {
       </button>
       <button
         name="COMPLETED"
-        className={`${classes["filter__btn"]}`}
+        className={`${classes["filter__btn"]} ${
+          filterStatus === "COMPLETED" ? classes["active"] : ""
+        }`}
         onClick={(e) => {
           handleFilterStatus(e.target.name);
         }}
