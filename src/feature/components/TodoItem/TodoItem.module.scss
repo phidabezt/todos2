@@ -37,22 +37,6 @@
     );
   }
 
-  &.completed {
-    background: rgba(192, 192, 192, 0.442);
-    .todo__content {
-      .todo__left {
-        .todo__check {
-          background-color: black;
-          color: yellowgreen;
-        }
-
-        .todo__text {
-          text-decoration: line-through;
-        }
-      }
-    }
-  }
-
   .todo__content {
     align-items: center;
     line-height: 35px;
@@ -97,6 +81,22 @@
         &:hover {
           opacity: 1;
         }
+      }
+    }
+  }
+}
+
+.todo.completed {
+  background: rgba(192, 192, 192, 0.442);
+  .todo__content {
+    .todo__left {
+      .todo__check {
+        background-color: black;
+        color: yellowgreen;
+      }
+
+      .todo__text {
+        text-decoration: line-through;
       }
     }
   }

@@ -1,120 +1,142 @@
-import React, { useState, useEffect } from "react";
-import "./index.scss";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import TodoList from "./components/TodoList";
-import Modal from "../components/Modal";
-import TodoSearch from "./components/TodoSearch";
-import TodoFilter from "./components/TodoFilter";
-import _ from "lodash";
-import callApi from "../utils/callApi";
+import React, { useState, useEffect } from 'react'
+import './index.scss'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+import TodoList from './components/TodoList'
+import Modal from '../components/Modal'
+import TodoSearch from './components/TodoSearch'
+import TodoFilter from './components/TodoFilter'
+import _ from 'lodash'
+import todoApi from '../api/todoApi'
 
 function App() {
-  const [todos, setTodos] = useState([]);
-  const [todoSelected, setTodoSelected] = useState();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filterStatus, setFilterStatus] = useState("ALL");
+  const [todos, setTodos] = useState([])
+  const [todoSelected, setTodoSelected] = useState()
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [filterStatus, setFilterStatus] = useState('ALL')
+
+  const fetchTodoList = async () => {
+    try {
+      const response = await todoApi.getAll()
+      setTodos(response)
+    } catch (error) {
+      console.log('Failed to fetch todo list: ', error)
+    }
+  }
 
   useEffect(() => {
-    callApi("todos", "GET", null).then((res) => {
-      setTodos(res.data);
-    });
-  }, []);
+    fetchTodoList()
+  }, [filterStatus])
 
-  const addTodo = async (name) => {
+  const addTodo = async name => {
     const todoObj = {
       id: new Date().getTime(),
       name: name,
       completed: false,
-    };
+    }
 
-    await callApi("todos", "POST", todoObj).then((res) => {
-      console.log(res);
-    });
-
-    await callApi("todos", "GET", null).then((res) => {
-      setTodos(res.data);
-    });
-  };
-
-  const toggleEditTodo = (todo) => {
-    setIsModalOpen(true);
-    setTodoSelected(todo);
-  };
-
-  const editTodo = (newValue) => {
-    setTodos((prevTodos) => {
-      const newTodos = [...prevTodos];
-      const index = newTodos.findIndex((item) => item.id === todoSelected.id);
-
-      if (index < 0) return prevTodos;
-      if (newTodos[index].name !== newValue) {
-        newTodos[index].name = newValue;
+    const postApiMethod = async () => {
+      try {
+        const response = await todoApi.post(todoObj)
+        fetchTodoList()
+      } catch (error) {
+        console.log('Failed to fetch todo list: ', error)
       }
-      return newTodos;
-    });
-    setIsModalOpen(false);
-    setTodoSelected();
-  };
+    }
+    postApiMethod()
+  }
 
-  const removeTodo = async (id) => {
-    const removedTodos = todos.filter((todo) => todo.id !== id);
+  const toggleEditTodo = todo => {
+    setIsModalOpen(true)
+    setTodoSelected(todo)
+  }
 
-    await callApi(`todos/${id}`, "DELETE", null).then((res) => {
-      console.log(res);
-    });
+  const editTodo = newValue => {
+    setIsModalOpen(false)
+    setTodoSelected()
 
-    await callApi("todos", "GET", null).then((res) => {
-      setTodos(res.data);
-    });
+    const putApiMethod = async () => {
+      try {
+        const response = await todoApi.put(todoSelected.id, 'name', newValue)
+        fetchTodoList()
+      } catch (error) {
+        console.log('Failed to fetch todo list: ', error)
+      }
+    }
+    putApiMethod()
+  }
 
-    setTodos(removedTodos);
-  };
+  const removeTodo = async id => {
+    const deleteApiMethod = async () => {
+      try {
+        const response = await todoApi.delete(id)
+        fetchTodoList()
+      } catch (error) {
+        console.log('Failed to fetch todo list: ', error)
+      }
+    }
+    deleteApiMethod()
+  }
 
-  const completeTodo = (id) => {
-    const updatedTodos = todos.map((todo) => {
-      return {
-        ...todo,
-        isCompleted: todo.id === id ? !todo.isCompleted : todo.isCompleted,
-      };
-    });
-
-    setTodos(updatedTodos);
-  };
+  const completeTodo = async id => {
+    try {
+      const response = await todoApi.get(id)
+      const updatedTodo = {
+        ...response,
+        completed: !response.completed,
+      }
+      const putApiMethod = async () => {
+        try {
+          const response = await todoApi.put(
+            id,
+            'completed',
+            updatedTodo.completed
+          )
+          fetchTodoList()
+        } catch (error) {
+          console.log('Failed to fetch todo list: ', error)
+        }
+      }
+      putApiMethod()
+      fetchTodoList()
+    } catch (error) {
+      console.log('Failed to fetch todo list: ', error)
+    }
+  }
 
   const handleSearchTerm = () => {
     return searchTerm
-      ? todos.filter((todo) => todo.name.includes(searchTerm))
-      : todos;
-  };
+      ? todos.filter(todo => todo.name.includes(searchTerm))
+      : todos
+  }
 
   const debouncedSetSearchTerm = _.debounce(
-    (nextValue) => setSearchTerm(nextValue),
-    300
-  );
+    nextValue => setSearchTerm(nextValue),
+    450
+  )
 
-  const handleFilterStatus = (status) => {
-    setFilterStatus(status);
-  };
+  const handleFilterStatus = status => {
+    setFilterStatus(status)
+  }
 
-  const handleFilter = (todos) => {
+  const handleFilter = todos => {
     switch (filterStatus) {
-      case "ALL":
-        return todos;
-      case "ACTIVE":
-        return todos.filter((todo) => !todo.isCompleted);
-      case "COMPLETED":
-        return todos.filter((todo) => todo.isCompleted);
+      case 'ALL':
+        return todos
+      case 'ACTIVE':
+        return todos.filter(todo => !todo.completed)
+      case 'COMPLETED':
+        return todos.filter(todo => todo.completed)
       default:
-        return todos;
+        return todos
     }
-  };
+  }
 
   const handleRenderTodos = () => {
-    const tempTodos = handleSearchTerm();
-    return handleFilter(tempTodos);
-  };
+    const tempTodos = handleSearchTerm()
+    return handleFilter(tempTodos)
+  }
 
   return (
     <div className="todo-app">
@@ -149,15 +171,15 @@ function App() {
       <button
         className="btn btn-plus "
         onClick={() => {
-          setIsModalOpen(true);
-          setTodoSelected({});
+          setIsModalOpen(true)
+          setTodoSelected({})
         }}
       >
         <span>+</span>
       </button>
       <Footer number={todos.length} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

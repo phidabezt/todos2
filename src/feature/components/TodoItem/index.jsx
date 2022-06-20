@@ -13,7 +13,7 @@ function TodoItem(props) {
   return (
     <div
       className={
-        todo.isCompleted
+        todo.completed
           ? `${classes.todo} ${classes.completed}`
           : `${classes.todo}`
       }
@@ -22,14 +22,6 @@ function TodoItem(props) {
         className={`${classes["todo__content"]} d-flex justify-content-between`}
       >
         <div className={`${classes["todo__left"]} d-flex`}>
-          {/* <i
-            className={`${
-              classes[`todo__check`]
-            } fa fa-check d-flex justify-content-around`}
-            onClick={() => {
-              completeTodo(todo.id);
-            }}
-          ></i> */}
           <FontAwesomeIcon
             icon={faCheckCircle}
             className={`${

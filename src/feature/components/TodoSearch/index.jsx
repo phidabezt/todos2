@@ -12,6 +12,7 @@ function TodoSearch(props) {
         type="text"
         name="search-input"
         id={classes.search__input}
+        className={classes.search__input}
         onChange={(e) => {
           setSearchTerm(e.target.value);
         }}
