@@ -2,8 +2,8 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
 body {
@@ -14,4 +14,45 @@ body {
   min-height: 100vh;
 
   background-color: #647c90 !important;
+}
+
+:root {
+  --primary-blue: rgb(0, 0, 255);
+  --secondary-blue: rgb(96, 96, 182);
+
+  --text-primary-light: black;
+  --text-primary-dark: white;
+
+  --text-secondary-light: rgb(52, 52, 99);
+  --text-secondary-dark: rgb(104, 104, 255);
+
+  --bg-primary-light: #c4d7e0;
+  --bg-primary-dark: #161a2b;
+
+  --bg-secondary-light: rgb(34, 34, 34);
+  --bg-secondary-dark: rgba(192, 192, 192, 0.442);
+
+  --box-shadow-light: none;
+  --box-shadow-dark: 0 0 30px rgba(93, 12, 255, 1);
+
+  --bg-scrollbar: hsl(265, 100%, 86%);
+  --scrollbar: hsl(271, 97%, 53%);
+}
+
+.light-theme {
+  --text-primary: var(--text-primary-light);
+  --text-secondary: var(--text-secondary-light);
+  --bg-primary: var(--bg-primary-light);
+  --bg-secondary: var(--bg-secondary-light);
+  --bg-navbar: var(--bg-navbar-light);
+  --box-shadow: var(--box-shadow-light);
+}
+
+.dark-theme {
+  --text-primary: var(--text-primary-dark);
+  --text-secondary: var(--text-secondary-dark);
+  --bg-primary: var(--bg-primary-dark);
+  --bg-secondary: var(--bg-secondary-dark);
+  --bg-navbar: var(--bg-navbar-dark);
+  --box-shadow: var(--box-shadow-dark);
 }

@@ -18,7 +18,7 @@
     color: rgb(214, 203, 203);
 
     &::placeholder {
-      color: rgb(158, 121, 231);
+      color: var(--text-secondary);
     }
   }
 
