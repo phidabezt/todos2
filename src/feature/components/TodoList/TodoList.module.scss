@@ -2,4 +2,24 @@
   margin-top: 20px;
   overflow-y: auto;
   height: 550px;
+  .loader {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid var(--scrollbar);
+    border-bottom: 16px solid var(--scrollbar);
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    animation: spin 3s linear infinite;
+    z-index: 10;
+    margin: 150px auto;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 }

@@ -6,22 +6,22 @@ const todoApi = {
     return axiosClient.get(url, { params })
   },
 
-  get: id => {
+  getById: id => {
     const url = `/todos/${id}`
     return axiosClient.get(url)
   },
 
-  post: todo => {
+  addTodo: todo => {
     const url = '/todos'
     return axiosClient.post(url, todo)
   },
 
-  delete: id => {
+  deleteTodo: id => {
     const url = `/todos/${id}`
     return axiosClient.delete(url)
   },
 
-  put: (id, key, newValue) => {
+  updateTodo: (id, key, newValue) => {
     const url = `/todos/${id}`
     const newTodo = { [key]: newValue }
     return axiosClient.put(url, newTodo)

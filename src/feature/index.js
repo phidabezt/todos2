@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import './index.scss'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -8,6 +8,9 @@ import TodoSearch from './components/TodoSearch'
 import TodoFilter from './components/TodoFilter'
 import _ from 'lodash'
 import todoApi from '../api/todoApi'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
+import { ThemeContext } from '../theme'
 
 function App() {
   const [todos, setTodos] = useState([])
@@ -15,17 +18,18 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [filterStatus, setFilterStatus] = useState('ALL')
-
-  const fetchTodoList = async () => {
-    try {
-      const response = await todoApi.getAll()
-      setTodos(response)
-    } catch (error) {
-      console.log('Failed to fetch todo list: ', error)
-    }
-  }
+  const [isLoading, setIsLoading] = useState(false)
+  const { theme } = useContext(ThemeContext)
 
   useEffect(() => {
+    const fetchTodoList = async () => {
+      try {
+        const data = await todoApi.getAll()
+        setTodos(data || [])
+      } catch (error) {
+        console.log('Failed to fetch todo list: ', error)
+      }
+    }
     fetchTodoList()
   }, [filterStatus])
 
@@ -36,15 +40,13 @@ function App() {
       completed: false,
     }
 
-    const postApiMethod = async () => {
-      try {
-        const response = await todoApi.post(todoObj)
-        fetchTodoList()
-      } catch (error) {
-        console.log('Failed to fetch todo list: ', error)
-      }
+    try {
+      await todoApi.addTodo(todoObj)
+      const data = await todoApi.getAll()
+      setTodos(data || [])
+    } catch (error) {
+      console.log('Failed to fetch todo list: ', error)
     }
-    postApiMethod()
   }
 
   const toggleEditTodo = todo => {
@@ -52,54 +54,36 @@ function App() {
     setTodoSelected(todo)
   }
 
-  const editTodo = newValue => {
+  const editTodo = async newValue => {
     setIsModalOpen(false)
     setTodoSelected()
 
-    const putApiMethod = async () => {
-      try {
-        const response = await todoApi.put(todoSelected.id, 'name', newValue)
-        fetchTodoList()
-      } catch (error) {
-        console.log('Failed to fetch todo list: ', error)
-      }
+    try {
+      await todoApi.updateTodo(todoSelected.id, 'name', newValue)
+      const data = await todoApi.getAll()
+      setTodos(data || [])
+    } catch (error) {
+      console.log('Failed to fetch todo list: ', error)
     }
-    putApiMethod()
   }
 
   const removeTodo = async id => {
-    const deleteApiMethod = async () => {
-      try {
-        const response = await todoApi.delete(id)
-        fetchTodoList()
-      } catch (error) {
-        console.log('Failed to fetch todo list: ', error)
-      }
+    try {
+      await todoApi.deleteTodo(id)
+      const data = await todoApi.getAll()
+      setTodos(data || [])
+    } catch (error) {
+      console.log('Failed to fetch todo list: ', error)
     }
-    deleteApiMethod()
   }
 
-  const completeTodo = async id => {
+  const completeTodo = async todo => {
     try {
-      const response = await todoApi.get(id)
-      const updatedTodo = {
-        ...response,
-        completed: !response.completed,
-      }
-      const putApiMethod = async () => {
-        try {
-          const response = await todoApi.put(
-            id,
-            'completed',
-            updatedTodo.completed
-          )
-          fetchTodoList()
-        } catch (error) {
-          console.log('Failed to fetch todo list: ', error)
-        }
-      }
-      putApiMethod()
-      fetchTodoList()
+      setIsLoading(true)
+      await todoApi.updateTodo(todo.id, 'completed', !todo.completed)
+      const data = await todoApi.getAll()
+      setTodos(data || [])
+      setIsLoading(false)
     } catch (error) {
       console.log('Failed to fetch todo list: ', error)
     }
@@ -139,8 +123,9 @@ function App() {
   }
 
   return (
-    <div className="todo-app">
+    <div className={`todo-app ${theme}`}>
       <Header />
+
       {isModalOpen && (
         <Modal
           addTodo={addTodo}
@@ -163,6 +148,7 @@ function App() {
 
       <TodoList
         todos={handleRenderTodos()}
+        loading={isLoading}
         removeTodo={removeTodo}
         completeTodo={completeTodo}
         toggleEditTodo={toggleEditTodo}

@@ -1,6 +1,5 @@
 .todo {
   align-items: center;
-  // margin: 4px auto;
   color: #fff;
   background: linear-gradient(
     90deg,
@@ -37,17 +36,17 @@
     );
   }
 
-  .todo__content {
+  &__content {
     align-items: center;
     line-height: 35px;
     text-align: left;
 
-    .todo__left {
+    &__left {
       align-items: center;
       width: 75%;
       justify-content: space-between;
 
-      .todo__check {
+      &__check {
         margin-right: 10px;
         color: transparent;
         height: 35px;
@@ -58,7 +57,7 @@
         cursor: pointer;
       }
 
-      .todo__text {
+      &__text {
         margin: 0;
         margin-right: auto;
         width: 200px;
@@ -66,13 +65,13 @@
       }
     }
 
-    .todo__right {
+    &__right {
       display: flex;
       justify-content: space-between;
       width: 10%;
 
-      .todo__edit,
-      .todo__remove {
+      &__edit,
+      &__remove {
         font-size: 18px;
         cursor: pointer;
         opacity: 0.6;
@@ -87,15 +86,15 @@
 }
 
 .todo.completed {
-  background: rgba(192, 192, 192, 0.442);
+  background: var(--bg-secondary);
   .todo__content {
-    .todo__left {
-      .todo__check {
+    &__left {
+      &__check {
         background-color: black;
         color: yellowgreen;
       }
 
-      .todo__text {
+      &__text {
         text-decoration: line-through;
       }
     }
